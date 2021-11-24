@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Coop Splitter</title>
+	<meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="bootstrap.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-danger">
+        <div class="container">
+            <a class="navbar-brand" href="#">Coop Splitter</a>
+        </div>
+    </nav>
+    <!-- Page content-->
+    <div class="container" id="textdiv">
+        <div class="text-center mt-5">
+            <h1>Coop Splitter</h1>
+            <p class="lead">Incolla qui sotto lo scontrino COOP</p>
+            <textarea></textarea><br>
+            <button id="runme" class="btn btn-primary">Carica Scontrino</button>
+        </div>
+    </div>
+
+    <div id="dragdiv" style="display:none" class="text-center">
+        
+        <br><br>
+        <div class="row">
+            <div class="col-6 dropzone bg-primary min-h m-0 text-white" data-zone="A">
+                <b>Totale: </b>€<span>0.00</span><br>
+                <b>Prodotti: </b><span>0.00</span>
+            </div>
+            <div class="col-6 dropzone bg-warning min-h m-0" data-zone="B">
+                <b>Totale: </b>€<span>0.00</span><br>
+                <b>Prodotti: </b><span>0.00</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 dropzone bg-success min-h m-0 text-white" data-zone="C">
+                <b>Totale: </b>€<span>0.00</span><br>
+                <b>Prodotti: </b><span>0.00</span><br>
+                <b>Diviso 2: </b>€<span>0.00</span>
+            </div>
+        </div>
+        
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://unpkg.com/interactjs/dist/interact.js"></script>
+    <script src="app.js">
+	</script>
+</body>
+
+</html>
