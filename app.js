@@ -1,5 +1,6 @@
 let bill = [];
 let last_drop = null;
+let people = 2;
 
 let groups = {};
 let colors = ["primary", "warning", "success", "danger", "info", "dark"];
@@ -7,13 +8,13 @@ let names = "ABCDEF";
 
 $("#runme").click(function(){
   //creating groups
-  let people = $("#people").val();
+  people = $("#people").val();
   for (let j=0; j<=people; j++){
     groups[names[j]] = []; //creating empty group
     if (j != people-1){
-      $("#singles").append('<div class="col-6 dropzone bg-'+colors[j]+' min-h m-0 text-white" data-zone="'+names[j]+'"><b>Totale: </b>€<span>0.00</span><br><b>Prodotti: </b><span>0.00</span></div>');
+      $("#singles").append('<div class="col-6 dropzone bg-'+colors[j]+' min-h m-0 text-white" data-zone="'+names[j]+'"><b>Prodotti: </b><span>0</span><br><b>Totale: </b>€<span>0.00</span><br><b>Con Gruppo: €</b><span>0.00</span></div>');
     } else {
-      $("#group").html('<div class="col-12 dropzone bg-'+colors[j]+' min-h m-0 text-white" data-zone="'+names[j]+'"><b>Totale: </b>€<span>0.00</span><br><b>Prodotti: </b><span>0.00</span><br><b>Diviso '+people+': </b>€<span>0.00</span></div>')
+      $("#group").html('<div class="col-12 dropzone bg-'+colors[j]+' min-h m-0 text-white" data-type="group" data-zone="'+names[j]+'"><b>Prodotti: </b><span>0</span><br><b>Totale: </b>€<span>0.00</span><br><b>Diviso '+people+': </b>€<span>0.00</span></div>')
     }
   }
   //start parsing
@@ -89,10 +90,32 @@ function updatePrices(attr, drop){
     let spans = $(drop).find("span");
     let sale = (attr.discount !== undefined) ? parseFloat(attr.discount) : 0;
     let total = parseFloat(attr.price) - sale;
-    spans.eq(0).html((parseFloat(spans.eq(0).text()) + total).toFixed(2));
-    spans.eq(1).html((parseInt(spans.eq(1).text()) + 1).toFixed(2));
-    spans.eq(2).html((parseFloat(spans.eq(0).text())/2).toFixed(2));
+    spans.eq(0).html((parseInt(spans.eq(0).text()) + 1));
+    spans.eq(1).html((parseFloat(spans.eq(1).text()) + total).toFixed(2));
 
+    if (drop.data("type") == "group"){
+      //is group zone
+      spans.eq(2).html((parseFloat(spans.eq(1).text())/people).toFixed(2));
+      let total_splitted = parseFloat($(".dropzone").last().children().last().text())
+      updateWithGroups(total_splitted);
+    } else {
+      //it's individual zone
+      let total_splitted = parseFloat($(".dropzone").last().children().last().text())
+      spans.eq(2).html((parseFloat(spans.eq(1).text())+total_splitted).toFixed(2));
+    }
+}
+
+function updateWithGroups(total){
+  let boxes = $(".dropzone")
+  boxes.each(function(i){
+    let box = boxes.eq(i);
+    if (box.data("type") != "group"){
+      let spans = box.find("span");
+      let current_total = parseFloat(spans.eq(1).text());
+      console.log("GROUP " + box.data("zone") + " ha speso " + current_total + " e devo aggiungere " + total)
+      spans.eq(2).text(current_total+total);
+    }
+  })
 }
 
 // enable draggables to be dropped into this
