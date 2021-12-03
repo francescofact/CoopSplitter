@@ -9,30 +9,47 @@ $("#runme").click(function(){
   for(var i = 0;i < lines.length;i++){
     let line = lines[i];
     let end = line.substring(line.length - 2);
-
+    
+    console.log([line, lastline])
+    if (line.includes("TOTALE COMPLESSIVO"))
+      break;
+    
     if (end == " A" || end == " B" || end == " D"){
       //its a product
       let name = line.split("      ")[0].trim();
       let price = line.replace(name, "").trim();
+      let qta = 1;
+      let group = false;
       price = price.substring(0, price.length - 2).replace(",",".");
       
       //check if is a multiple
       let regex = /[0-9]{1,2} {2,3}X[0-9]{1,2},[0-9]{2}/gm;
       if (regex.test(name)){
         name = lastline.trim()
+        qta = parseInt(line.trim().split(" ")[0]);
+        price = price/qta;
       }
+
+      for (let j=0; j<qta; j++)
+        bill.push({"item": name, "price": parseFloat(price)});
       
-      bill.push({"item": name, "price": parseFloat(price)});
     } else if (isStrNumeric(end)){
       let widerend = line.substring(line.length - 5)
       if (widerend.includes("-")){
        // last item was in sale
        widerend = widerend.trim().replace("-","").replace(",",'.');
-       let lastitem = bill[bill.length-1];
-       lastitem["discount"] = parseFloat(widerend)
+
+       for (let j=bill.length-1; j>=0; j--){ //apply discount to last item without discount (for qta > 1 with multiple in sale )
+          if (bill[j]["discount"] == undefined){
+            bill[j]["discount"] = parseFloat(widerend);
+            break;
+          }
+       }
+       
       }
+    } else {
+      lastline = line;
     }
-    lastline = line;
   }
   $("#textdiv").hide();
   $("#dragdiv").fadeIn();
