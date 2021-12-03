@@ -20,47 +20,13 @@
         <div class="text-center mt-5">
             <h1>Coop Splitter</h1>
             <p class="lead">Incolla qui sotto lo scontrino COOP</p>
-            <textarea>
- 
-                UNICOOP FIRENZE SOC. COOPERATIVA
-                PORTA A LUCCA
-                VIA DI GELLO, 17
-                PORTA A LUCCA (PI), P.IVA 00407780485
-                050 830262
-                 
-                DOCUMENTO COMMERCIALE
-                di vendita o prestazione
-                 
-                DESCRIZIONE                   PREZZO IVA
-                CARTA SOCIO  0210*******13
-                 
-                   BISCOTTI BAIOCCHI MB          0,99 B
-                   BIS.GOCCIOLE CIOC.      
-                    3   X2,32                    6,96 B
-                      SCONTO % ARTICOLO         -0,93
-                      SCONTO % ARTICOLO         -0,93
-                      SCONTO % ARTICOLO         -0,93
-                   SALE IOATO GROSSO             0,36 A
-                 
-                 
-                ____________________________________________
-                TOTALE COMPLESSIVO €             5,52
-                 DI CUI IVA                      0.53
-                 
-                 
-                             VISA CLESS          5,52
-                             RESTO               0,00
-                             IMPORTO PAGATO      5,52
-                 
-                 
-                B: 10%                 
-                A: 22%                 
-                 
-                 
-                02/12/2021  16:28    DOC. N1235-0102
-                 
-                        Server RT:53SNS300550
-                              ECR:  03200009</textarea><br>
+            <textarea></textarea><br><br>
+            <p class="lead">Quante Persone?</p>
+            <div class="number">
+                <span class="minus btn btn-sm btn-danger"><b>-</b></span>
+                <input type="text" value="2" id="people"/>
+                <span class="plus btn btn-sm btn-danger"><b>+</b></span>
+            </div><br>
             <button id="runme" class="btn btn-primary">Carica Scontrino</button>
         </div>
     </div>
@@ -68,23 +34,8 @@
     <div id="dragdiv" style="display:none" class="text-center">
         
         <br><br>
-        <div class="row">
-            <div class="col-6 dropzone bg-primary min-h m-0 text-white" data-zone="A">
-                <b>Totale: </b>€<span>0.00</span><br>
-                <b>Prodotti: </b><span>0.00</span>
-            </div>
-            <div class="col-6 dropzone bg-warning min-h m-0" data-zone="B">
-                <b>Totale: </b>€<span>0.00</span><br>
-                <b>Prodotti: </b><span>0.00</span>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12 dropzone bg-success min-h m-0 text-white" data-zone="C">
-                <b>Totale: </b>€<span>0.00</span><br>
-                <b>Prodotti: </b><span>0.00</span><br>
-                <b>Diviso 2: </b>€<span>0.00</span>
-            </div>
-        </div>
+        <div class="row w-100" id="singles"></div>
+        <div class="row w-100" id="group"></div>
         
     </div>
     

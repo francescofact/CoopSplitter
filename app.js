@@ -1,16 +1,28 @@
 let bill = [];
 let last_drop = null;
 
-let groups = {"A": [], "B": [], "C": []};
+let groups = {};
+let colors = ["primary", "warning", "success", "danger", "info", "dark"];
+let names = "ABCDEF";
 
 $("#runme").click(function(){
+  //creating groups
+  let people = $("#people").val();
+  for (let j=0; j<=people; j++){
+    groups[names[j]] = []; //creating empty group
+    if (j != people-1){
+      $("#singles").append('<div class="col-6 dropzone bg-'+colors[j]+' min-h m-0 text-white" data-zone="'+names[j]+'"><b>Totale: </b>€<span>0.00</span><br><b>Prodotti: </b><span>0.00</span></div>');
+    } else {
+      $("#group").html('<div class="col-12 dropzone bg-'+colors[j]+' min-h m-0 text-white" data-zone="'+names[j]+'"><b>Totale: </b>€<span>0.00</span><br><b>Prodotti: </b><span>0.00</span><br><b>Diviso '+people+': </b>€<span>0.00</span></div>')
+    }
+  }
+  //start parsing
   let lines = $("textarea").val().split('\n');
   let lastline = "";
   for(var i = 0;i < lines.length;i++){
     let line = lines[i];
     let end = line.substring(line.length - 2);
     
-    console.log([line, lastline])
     if (line.includes("TOTALE COMPLESSIVO"))
       break;
     
@@ -19,9 +31,7 @@ $("#runme").click(function(){
       let name = line.split("      ")[0].trim();
       let price = line.replace(name, "").trim();
       let qta = 1;
-      let group = false;
       price = price.substring(0, price.length - 2).replace(",",".");
-      
       //check if is a multiple
       let regex = /[0-9]{1,2} {2,3}X[0-9]{1,2},[0-9]{2}/gm;
       if (regex.test(name)){
@@ -157,4 +167,24 @@ function dragMoveListener (event) {
     // update the posiion attributes
     target.setAttribute('data-x', x);
     target.setAttribute('data-y', y);
-    }
+}
+
+//plus-minus
+$(document).ready(function() {
+  $('.minus').click(function () {
+    var $input = $(this).parent().find('input');
+    var count = parseInt($input.val()) - 1;
+    count = count < 2 ? 2 : count;
+    $input.val(count);
+    $input.change();
+    return false;
+  });
+  $('.plus').click(function () {
+    var $input = $(this).parent().find('input');
+    var count = parseInt($input.val()) + 1;
+    count = count > 5 ? 5 : count;
+    $input.val(count);
+    $input.change();
+    return false;
+  });
+});
