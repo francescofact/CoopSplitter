@@ -26,7 +26,8 @@
                 <span class="minus btn btn-sm btn-danger"><b>-</b></span>
                 <input type="text" value="2" id="people"/>
                 <span class="plus btn btn-sm btn-danger"><b>+</b></span>
-            </div><br>
+            </div>
+            <i><a href="#" onclick="$('#namesModal').modal('show');">Cambia Nomi</a></i><br><br>
             <button id="runme" class="btn btn-primary">Carica Scontrino</button>
         </div>
     </div>
@@ -39,6 +40,29 @@
         
     </div>
     
+    <div class="modal" tabindex="-1" role="dialog" id="namesModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cambia Nomi</h5>
+            </div>
+            <div class="modal-body">
+                <p>Inserisci i nomi dei box:</p>
+                <input class="form-control cnames" type="text" id="name0"/><br>
+                <input class="form-control cnames" type="text" id="name1"/><br>
+                <input class="form-control cnames" type="text" id="name2"/><br>
+                <input class="form-control cnames" type="text" id="name3"/><br>
+                <input class="form-control cnames" type="text" id="name4"/>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="savenames">Salva</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
+            </div>
+            </div>
+        </div>
+    </div>
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://unpkg.com/interactjs/dist/interact.js"></script>

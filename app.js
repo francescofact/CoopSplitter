@@ -4,14 +4,57 @@ let people = 2;
 
 let groups = {};
 let colors = ["primary", "warning", "success", "danger", "info", "dark"];
-let names = "ABCDEF";
+let names = ["A","B","C","D","E","F"];
+
+$(document).ready(function() {
+  //custom names loader
+  let cnames = localStorage.getItem("custom_names");
+  if (cnames != undefined){
+    names = JSON.parse(cnames);
+  }
+  let inputs = $(".cnames");
+  inputs.each(function(i){
+    inputs.eq(i).val(names[i]);
+  });
+
+  //remember people number
+  let cval = localStorage.getItem("last_people");
+  if (cval != undefined){
+    $("#people").val(parseInt(cval));
+  }
+
+  //init plus minus input
+  init_plusminus();
+});
+
+$("#savenames").click(function(){
+  let inputs = $(".cnames");
+  let cnames = [];
+  let error = false;
+  inputs.each(function(i){
+    if (inputs[i].value.trim() == ""){
+      alert("Devi specificare tutti i nomi");
+      error = true;
+    }
+    cnames[i] = inputs[i].value;
+  });
+  
+  if (!error){
+    localStorage.setItem("custom_names", JSON.stringify(cnames))
+    names = cnames;
+    $("#namesModal").modal("toggle");
+  }
+});
 
 $("#runme").click(function(){
   //creating groups
   people = $("#people").val();
+  localStorage.setItem("last_people", people);
+  names[people] = "*";
   for (let j=0; j<=people; j++){
+    console.log([j, people-1])
     groups[names[j]] = []; //creating empty group
-    if (j != people-1){
+    if (j != people){
       $("#singles").append('<div class="col-6 dropzone bg-'+colors[j]+' min-h m-0 text-white" data-zone="'+names[j]+'"><b>Prodotti: </b><span>0</span><br><b>Totale: </b>€<span>0.00</span><br><b>Con Gruppo: €</b><span>0.00</span></div>');
     } else {
       $("#group").html('<div class="col-12 dropzone bg-'+colors[j]+' min-h m-0 text-white" data-type="group" data-zone="'+names[j]+'"><b>Prodotti: </b><span>0</span><br><b>Totale: </b>€<span>0.00</span><br><b>Diviso '+people+': </b>€<span>0.00</span></div>')
@@ -112,7 +155,6 @@ function updateWithGroups(total){
     if (box.data("type") != "group"){
       let spans = box.find("span");
       let current_total = parseFloat(spans.eq(1).text());
-      console.log("GROUP " + box.data("zone") + " ha speso " + current_total + " e devo aggiungere " + total)
       spans.eq(2).text(current_total+total);
     }
   })
@@ -193,7 +235,7 @@ function dragMoveListener (event) {
 }
 
 //plus-minus
-$(document).ready(function() {
+function init_plusminus(){
   $('.minus').click(function () {
     var $input = $(this).parent().find('input');
     var count = parseInt($input.val()) - 1;
@@ -210,4 +252,4 @@ $(document).ready(function() {
     $input.change();
     return false;
   });
-});
+}
